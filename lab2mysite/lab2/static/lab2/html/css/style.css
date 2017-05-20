@@ -1,0 +1,21 @@
+body {
+	background-image: url("../img/bg.jpg");
+	background-attachment: fixed;
+
+}
+h1 {
+	text-align: center;	
+}
+h2 {
+	text-align: center;	
+}
+ul {
+	list-style: none;
+	overflow: hidden;
+}
+li {
+	display: inline;
+}
+#links-div {
+	background-color: beige;
+}

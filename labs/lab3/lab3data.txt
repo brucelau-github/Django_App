@@ -1,0 +1,29 @@
+AUTHORS
+
+1. John Smith  born 1980-09-25  lives in Windsor
+2. Mary Hall   born 1976-12-17  lives in Toronto
+3. John King   born 1982-01-05
+4. Alan Jones  born 1980-01-12
+
+BOOKS
+
+1. Advanced Optical Networks by AUTHOR#1 110 pages
+2. Wireless Networks by  AUTHOR#2   300 pages
+3. The New World by AUTHOR#3   75 pages NOT-IN-STOCK
+4. Python Programming by AUTHOR#4 275 pages
+5. A Good Story by AUTHOR#2  155 pages
+
+COURSES
+
+1. 106 'Python Introduction' uses 	BOOK#4
+2. 211 'English Literature' uses 	BOOK#5
+3. 567 'Networking Topics' uses 	BOOK#2
+4. 110 'Programming Introduction' uses  BOOK#4
+
+STUDENTS
+
+1. Bill Wang registered in 106, 567
+2. Josh James registered in 106, 567
+3. Ziad Kobti registered in 211, 567
+4. Luis Rueda registered in 211
+
