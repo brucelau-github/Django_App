@@ -25,7 +25,7 @@ SECRET_KEY = 'j55#xrni#)bm=sq5432b##l(z&v^#7e+@5k@!a892#^9ygxn#w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['liu1ee.cs.uwindsor.ca']
 
 
 # Application definition

@@ -1,0 +1,27 @@
+/S 2017 LAB #4
+Due Date: Monday, May 29
+Group No
+104522497 Jianye Liu
+
+PART 1: Work with REs
+1. Use re.match. For each RE (re1) given below, determine the value of m.group() and m.span() (indicate  m=None if there is no match) for each string (str1), where m= re.match(re1, str1). (More info available at:  https://docs.python.org/3/howto/regex.html).
+re1 = r'60-6\d{2,2}'; 
+a) str1='60-634'
+b) str1='03-60-667'
+c) str1='60-556'
+d) str1='60-6999'
+
+re1 = r'\w+[@]\w+([._]?\w+)*[.][a-zA-Z]{2,3}'; 
+e) str1= 'ab@cd.ef' 
+f) str1= 'ab@cd.ef_gh.ij'
+g) str1= 'ab.cd.ef_gh.i'
+h) str1= '12@34.56.gh_ij'
+
+2. Use re.search and re.findall methods. For those values where re.match returns None, indicate result of  s= re.search(re1, str1)and f= re.findall(re1, str1)
+s = None.  f=[]
+3. Create your own RE. Write a RE that will match 10-digit phone numbers of the form: (abc)def-ghij. Here a, b, c, …j represent digits [0-9]. The very first digit cannot be 0 and the string should contain exactly 10 digits and no whitespaces. So, your RE should match (519)253-3000 It should not match (019)253-3000 or 519-253-3000 or (519)253-30001 or (519)253-30ab.
+r'[(][1-9]\d{2,2}[)]\d{3,3}-\d{4,4}'
+4. Use named groups. Use named groups to extract the area code so that m.group('areacode')=519, where m is the match obj returned when re.match() is called with your RE and str=(519)253-3000.
+r'[(](?P<areacode>[1-9]\d{2,2})[)]\d{3,3}-\d{4,4}'
+5. Challenge question. Allow the string to contain an optional extension. So in addition to phone numbers of the form given above, your RE should match strings with a valid phone number followed by the letter ‘x’ followed by an extension of 3-5 digits. There should be no white spaces between the phone number and the extension. So your RE should match (519)253-3000x123 or (519)253-3000x1234 or (519)253-3000x12345; but it should not match (519)253-3000 x 123 or (519)253-3000x123456 or (519)253-3000x12 or (519)253-3000x. Extract the extension as well as the area code using named groups.
+r'[(](?P<areacode>[1-9]\d{2,2})[)]\d{3,3}-\d{4,4}x(?P<extension>\d{3,5})'

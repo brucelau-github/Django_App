@@ -1,0 +1,17 @@
+import re
+phoneNumber = r'[(][1-9]\d{2,2}[)]\d{3,3}-\d{4,4}'
+phoneNumberAreacode = r'[(](?P<areacode>[1-9]\d{2,2})[)]\d{3,3}-\d{4,4}'
+phoneNumberAreacodeAndExt = r'[(](?P<areacode>[1-9]\d{2,2})[)]\d{3,3}-\d{4,4}x(?P<extension>\d{3,5})'
+str1='(519)253-3000'
+str2='(019)253-3000'
+str3='519-253-3000'
+str4='(519)253-30001'
+str5='(519)253-30ab'
+str6='(519)253-3000x12345'
+re.findall(phoneNumber,str1)
+re.findall(phoneNumber,str2)
+re.findall(phoneNumber,str3)
+re.findall(phoneNumber,str4)
+re.findall(phoneNumber,str5)
+re.search(phoneNumberNamedGroup,str1)
+re.search(phoneNumberAreacodeAndExt,str6)
