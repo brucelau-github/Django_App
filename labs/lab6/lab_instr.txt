@@ -1,0 +1,96 @@
+PART 1: Create basic templates
+1. Create dir for your templates. Check if a dir named templates has been created inside your myapp dir. If it does not exist, create a new dir myapp/templates. Inside myapp/templates create a new dir called myapp to store your template files.  So your templates will be in mysiteS17/myapp/templates/myapp.
+2. Update index view.
+a. Import render by adding following line to views.py.
+from django.shortcuts import render # it may be already in your views.py file
+b. Update index view in views.py as follows:
+def index(request):
+    courselist = Course.objects.all().order_by('title')[:10]
+    return render(request, 'myapp/index0.html', {'courselist': courselist})
+c. Are you passing any extra context variables to the template? If so, what are you passing?
+yes, courselit
+3. Create index0.html.
+a. Create a new file index0.html in dir mysiteS17/myapp/templates/myapp
+b. Edit index.html as follows:
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Course Listing APP</title>
+</head>
+<body>
+    {% if courselist %}
+        <h2>List of Courses</h2>
+        <ol>
+            {% for course  in courselist %}
+                <li> {{ course.title}} </li>
+            {% endfor %}
+        </ol>
+    {% else %}
+        <strong>There are no available courses!</strong>
+    {% endif %}
+</body>
+</html>
+c. Go to the url for your app to view your page.
+d. At the bottom of the index page, add a link to go to the ‘About’ page by adding the following line: <p><a href="/myapp/about">About page</a></p>
+e. Change the above hardcoded url to the about page so that it uses url namespacing.
+4. Create about0.html.
+a. Create a new file about0.html in dir mysiteS17/myapp/templates/myapp
+In addition to displaying the text for the about page, it should have a link to go back to the main (index.html) page. Try using both hardcoded url and url namespacing for this.
+b. Update the about view function in views.py so that it uses the about.html template.
+c. Do you need to pass any extra context variables to the template?   YES      NO
+NO.
+d. If yes, what variable(s) are you passing?
+5. Create detail0.html.
+a. Create a new file detail0.html in dir mysiteS17/myapp/templates/myapp
+The above html will be rendered if you go to the url:    myapp/<course_no>
+For each course, it should display course_no,  title, and textbook for the selected course .
+The detail page should also have a link to go back to the main (index.html) page (as in about.html). Use url namespacing for this.
+b. Update the about view function in views.py so that it uses the detail.html template.
+c. Do you need to pass any extra context variables to the template?   YES      NO
+yes
+d. If yes, what variable(s) are you passing?
+course
+6. Challenge question:  Update index.html so that you can click on a Course title for a listed library item to go to the detail page for that item.
+PART 2: Use template inheritance
+1. Create dir for static files. Create a new dir myapp/static. Inside myapp /static create a new dir called myapp. This is where your static files (e.g. css style sheets) will reside.  .
+a. Create a new file style.css in dir mysiteS17/ myapp /static/ myapp
+b. style.css should define default background color, default text color and default font size, color, style, position for <h1>  tags. and the following class:
+.hbar1 {
+    display: inline;
+    margin: 15px;
+}
+In addition you can define other optional styles for other elements.
+2. Create base.html.
+a. Create a new file base.html in dir mysiteS17/myapp/templates/myapp
+b. Edit base.html as follows:
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{% static 'myapp/style.css' %}" />
+        <title>Course Listing APP - {% block title %}Welcome!{% endblock %}</title>
+    </head>
+    <body>
+        <div>
+            <h1>{% block myhdg %}Hello User {% endblock %}</h1>
+            {% block body_block %}*** {% endblock %}
+        </div>
+        <hr />
+        <div>
+            <ul>
+                <li class="hbar1"><a href="/myapp/about/">Find out about this site</a></li>
+                <li class="hbar1"><a href = "{% url 'myapp:index' %}">Click here to return to main page</a><br/></li>
+            </ul>
+        </div>
+    </body>
+</html>
+2. Create index.html.
+a. Create index.html  (in the same dir as index0.html) and enter the following:
+{% extends 'myapp/base.html' %}
+{% block body_block %}
+{% endblock %}
+c. Inside the body_block block include the contents within <body> tags of your previous index0.html file.
+d. Go to url for your app and view the main page.
+e. Remove duplicate links for main page and about page from index.html. Update index.html so that myhdg block will say Hello <your_name>  (instead of Hello User)
+f. Update detail.html and about.html to use the base template.

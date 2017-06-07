@@ -1,0 +1,11 @@
+body {
+	background-color: beige;
+	color: blueviolet;
+	font-size: 14px;
+	font-style: normal;
+}
+
+.hbar1 {
+    display: inline;
+    margin: 15px;
+}

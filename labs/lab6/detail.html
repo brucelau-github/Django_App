@@ -1,0 +1,17 @@
+{% extends 'myapp/base.html' %}
+
+{% block myhdg %}
+	hello Jianye Liu
+{% endblock %}
+{% block body_block %}
+	{% if course %}
+	<h2>detail of Course</h2>
+	<ol>
+		<li> Title: {{ course.title }} </li>
+		<li> Course Number: {{ course.course_no }} </li>
+		<li> Course textbook: {{ course.textbook.title }} </li>
+	</ol>
+	{% else %}
+	<strong>There are no available course!</strong>
+	{% endif %}
+{% endblock %}
