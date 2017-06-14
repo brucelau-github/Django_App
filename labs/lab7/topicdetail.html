@@ -1,0 +1,24 @@
+{% extends 'myapp/base.html' %}
+
+{% block myhdg %}
+	hello Jianye Liu
+{% endblock %}
+{% block body_block %}
+	{% if topic %}
+	<h2>detail of Topic</h2>
+	<ol>
+		<li> subject: {{ topic.subject }} </li>
+		<li> intro_course : {{ topic.intro_course }} </li>
+		<li> num responses: {{ topic.num_responses }} </li>
+		<li> average age {{ topic.avg_age }} </li>
+	</ol>
+	{% else %}
+	<strong>There are no available course!</strong>
+	{% endif %}
+	<hr/>
+	<form action="{% url 'myapp:topicdetail' topic.id %}" method="POST">
+		{% csrf_token %}
+		{{ form.as_ul }}
+		<input type="submit" value="Submit" />
+	</form>
+{% endblock %}

@@ -1,0 +1,69 @@
+PART 1: Work with Forms
+Update your app so that users are able to propose new topics for courses they are interested in. They should also be able to see a list of topics that have already been proposed. Users should also be able to select a particular topic to see more detailed information about that topic and indicate whether they would be interested in taking a course on that topic.
+1. Create a new model.
+a. Edit models.py to add the Topic model as follows.
+class Topic(models.Model):
+    subject = models.CharField(max_length=100, unique=True)
+    intro_course = models.BooleanField(default=True)
+    NO_PREFERENCE = 0
+    MORNING = 1
+    AFTERNOON = 2
+    EVENING = 3
+    TIME_CHOICES = (
+        (0, 'No preference'),
+        (1, 'Morning'),
+        (2, 'Afternoon'),
+        (3, 'Evening')
+    )
+    time = models.IntegerField(default=0, choices=TIME_CHOICES) num_responses = models.IntegerField(default=0)
+    avg_age =models.IntegerField(default=20)
+b. Add a suitable __str__ method for this model.
+c. Update database. (Use makemigrations, sqlmigrate, migrate)
+2. Create new forms. Create a new file myapp/forms.py and add the following two lines:
+from django import forms
+from myapp.models import Topic
+a. Create a new form class: class TopicForm(forms.ModelForm):
+b. TopicForm should be a form based on the Topic model. The form fields should include: subject, intro_course, time and avg_age
+c. Set the widget for time field to RadioSelect.
+d. Set the labels for the time field to ‘Preferred Time’ and for avg_age field to ‘What is your age?’
+e. Create another new form class class InterestForm(forms.Form):
+The form should have 3 fields:
+i)interested: Should display RadioSelect buttons (Yes/No). The value returned will be 1 for Yes and 0 for No.
+ii)age: Will accept an integer value indicating age of use. Initial value is set to 20.
+iii)comments: An optional input using Textarea widget and label = ‘Additional Comments’
+PART 2: Create views for your app in views.py
+1. Create topics  view. This view will send a list of proposed topics for new courses to a template topic.html. The template will display the list of the topics and also have a link (url /myapp/addtopic) to propose a new topic.
+a. Edit your views.py file as follows:
+	# Import necessary classes and models
+# Create your views here.
+def topics(request):
+    topiclist = Topic.objects.all()[:10]
+    return render(request, courselist 'myapp/topic.html',
+{'topiclist':   topiclist})
+b. Define another function addtopic(request) in your views.py file. When the user goes to url myapp/addtopic it should display the following text: “You can add a new topic here.” This view will be updated later. You should also update myapp/urls.py with the suitable url pattern.
+c.Update myapp/urls.py so that going to url myapp/topics/ will call the function views.topics.
+d. Create the template topics.html in myapp/templates/myapp dir.
+e. Update base.html to add a link to url myapp/topics/  in addition to the main (index) and about page.
+2. Update addtopic  view. This view will display a list of already proposed topics and provide a form for the user to propose a new topic. The template will display the list of the topics and also have a link (url /myapp/addtopic) to propose a new topic.
+a. Edit your views.py file as follows:
+	# Import necessary classes and models
+# Create your views here.
+def addtopic(request):
+    topiclist = Topic.objects.all()
+    if request.method=='POST':
+        form = TopicForm(request.POST)
+        if form.is_valid():
+            topic = form.save(commit=False)
+            topic.num_responses=1
+            topic.save()
+            return HttpResponseRedirect(reverse('myapp:topics'))
+    else:
+        form=TopicForm()
+    return render(request, 'myapp/addtopic.html', {'form':form,
+'topiclist':topiclist})
+b. Create the template addtopic.html in myapp/templates/myapp dir.
+c. Change the label for field intro_course to "This should be an introductory level course".
+3. Create topicdetail  view. Define another function topicdetail(request, topic_id) in your views.py file. When the user goes to url  myapp/topics/<topic_id> it should display subject, the number of people interested in the topic (num_responses), whether it is an introductory course (intro_course), and avg_age of people interested in the particular topic. It should also use InterestForm (created in Part 1) to allow users to indicate their interest in the topic.
+a. Update topic.html so clicking on a topic brings the user to url  myapp/topics/<topic_id>
+b. Update myapp/urls.py with the suitable url pattern.
+c. If the page is called using GET display an unbound InterestForm. If it is called using POST, validate form. If form is valid and interested is 1 increment num_responses for the topic, calculate new avg_age save the updated topic object and redirect to myapp/topics/ page.

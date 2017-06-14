@@ -1,0 +1,18 @@
+{% extends 'myapp/base.html' %}
+
+{% block myhdg %}
+	hello Jianye Liu
+{% endblock %}
+{% block body_block %}
+<a href="{% url 'myapp:addtopic' %}">add a new topic</a>
+	{% if topiclist %}
+	<h2>List of Courses</h2>
+	<ol>
+		{% for topic  in topiclist %}
+		<li> <a href="{% url 'myapp:topicdetail' topic.id %}">{{ topic.subject }}</a> </li>
+		{% endfor %}
+	</ol>
+	{% else %}
+	<strong>There are no available topics!</strong>
+	{% endif %}
+{% endblock %}
