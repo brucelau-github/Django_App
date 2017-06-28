@@ -1,18 +1,51 @@
 {% extends 'myapp/base.html' %}
 
 {% block myhdg %}
-	hello Jianye Liu
+Jianye Liu
 {% endblock %}
 {% block body_block %}
-<a href="{% url 'myapp:addtopic' %}">add a new topic</a>
-	{% if topiclist %}
-	<h2>List of Courses</h2>
-	<ol>
-		{% for topic  in topiclist %}
-		<li> <a href="{% url 'myapp:topicdetail' topic.id %}">{{ topic.subject }}</a> </li>
-		{% endfor %}
-	</ol>
-	{% else %}
-	<strong>There are no available topics!</strong>
-	{% endif %}
+{% if topiclist %}
+<h2 class="sub-header">All Topics</h2>
+
+<div class="bpx azo">
+	<div class="input-group headsearch">
+		<span class="input-group-addon">search</span>
+		<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+	</div>
+	<div class="bpy">
+		<div class="pz">
+			<a href="{% url 'myapp:addtopic' %}" role="button" class="btn btn-primary">
+				<span class="glyphicon glyphicon-plus">Add New Topic</span>
+			</a>
+		</div>
+	</div>
+</div>
+
+<div class="table-responsive">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Topic ID</th>
+				<th>Subject</th>
+				<th>Time</th>
+				<th>Introduction Course</th>
+				<th>Detail</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for topic  in topiclist %}
+			<tr>
+				<th> {{ topic.id }} </th>
+				<th> {{ topic.subject }} </th>
+				<th> {{ topic.time }} </th>
+				<th> {{ topic.intro_course }} </th>
+				<th><a href="{% url 'myapp:topicdetail' topic.id %}">more</a></th>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% else %}
+<strong>There are no available topics!</strong>
+{% endif %}
 {% endblock %}

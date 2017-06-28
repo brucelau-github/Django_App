@@ -1,0 +1,22 @@
+body {
+	padding-top: 50px;
+	font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.bpx {
+	display: inline-table;
+	padding-bottom: 15px;
+	width: 100%;
+}
+.bpy {
+	display: table-cell;
+	width: 1%;
+	white-space: nowrap;
+	vertical-align: middle;
+}
+.bpz {
+	width: 99%;
+}
+.headsearch {
+	width: 20%
+}

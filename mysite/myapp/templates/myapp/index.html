@@ -1,17 +1,34 @@
 {% extends 'myapp/base.html' %}
 
 {% block myhdg %}
-	hello Jianye Liu
+hello Jianye Liu
 {% endblock %}
 {% block body_block %}
-	{% if courselist %}
-	<h2>List of Courses</h2>
-	<ol>
-		{% for course  in courselist %}
-		<li> <a href="{% url 'myapp:detail' course.course_no %}">{{ course.title }} - {{ course.course_no }}</a> </li>
-		{% endfor %}
-	</ol>
-	{% else %}
-	<strong>There are no available courses!</strong>
-	{% endif %}
+{% if courselist %}
+<h2 class="sub-header">List of Courses</h2>
+<div class="table-responsive">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Course ID</th>
+				<th>Title</th>
+				<th>TextBook</th>
+				<th>Detail</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for course  in courselist %}
+			<tr>
+				<th> {{ course.course_no }} </th>
+				<th> {{ course.title }} </th>
+				<th> {{ course.textbook }} </th>
+				<th><a href="{% url 'myapp:detail' course.course_no %}">more</a></th>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% else %}
+<strong>There are no available courses!</strong>
+{% endif %}
 {% endblock %}
