@@ -41,7 +41,13 @@
 						<li><a href ="{% url 'myapp:topics' %}">Topics</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#">{% block myhdg %}Hello User {% endblock %}</a></li>
+						{% if request.user.is_authenticated %}
+						<li><a href="#">Hello {{ request.user.first_name }}</a></li>
+						<li><a href="{% url 'myapp:logout' %}">Logout</a></li>
+						{% else %}
+						<li><a href="{% url 'myapp:login' %}">Login</a></li>
+						<li><a href="{% url 'myapp:register' %}">Register</a></li>
+						{% endif %}
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div>
@@ -50,7 +56,7 @@
 		<div class="container">
 			{% block body_block %}*** {% endblock %}
 		</div>
-	  <!-- Placed at the end of the document so the pages load faster -->
-	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	</body>
 </html>

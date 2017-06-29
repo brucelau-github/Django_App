@@ -6,7 +6,10 @@ from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from myapp.models import Author, Book, Course, Topic
-from myapp.forms import TopicForm, InterestForm
+from myapp.forms import TopicForm, InterestForm, RegisterForm, LoginForm
+
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request):
@@ -51,3 +54,50 @@ def topicdetail(request, topic_id):
     else:
         form = InterestForm()
     return render(request, 'myapp/topicdetail.html', {'form':form, 'topic':topic})
+
+def register(request):
+    if(request.method=='POST'):
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            uname = request.POST['username']
+            pwd = request.POST['password']
+            email = request.POST['email']
+            student = Student.objects.create_user(uname,email,pwd)
+            student = form.save(commit=False)
+            student.save()
+            user2 = authenticate(username='abs',password='123')
+            student.username = uname
+            student.password =pwd
+            # student.first_name = request.POST['first_name']
+            # student.last_name = request.POST['last_name']
+            # student.save()
+            # # Student.objects.create(user=student)
+            # user = authenticate(username=student.username, password=student.password)
+            # Student.objects.create_user(request.POST['username'],"", request.POST['password'], form.cleaned_data['age'])
+            return HttpResponseRedirect(reverse('myapp:index'))
+    else:
+        print('GET')
+        form = RegisterForm()
+        return render(request, 'myapp/register.html', {'form': form})
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect(reverse('myapp:index'))
+            else:
+                return HttpResponse('Your account is disabled.')
+        else:
+            return HttpResponse('Invalid login details.')
+    else:
+        form = LoginForm()
+        return render(request, 'myapp/login.html', {'form':form})
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse(('myapp:index')))
