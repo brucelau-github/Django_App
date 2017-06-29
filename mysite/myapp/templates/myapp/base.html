@@ -37,8 +37,11 @@
 				<div id="navbar" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav">
 						<li><a href = "{% url 'myapp:index' %}">Home Page</a></li>
-						<li><a href="{% url 'myapp:about' %}">About</a></li>
 						<li><a href ="{% url 'myapp:topics' %}">Topics</a></li>
+						{% if request.user.is_authenticated %}
+						<li><a href="{% url 'myapp:mycourses' %}">My Courses</a></li>
+						{% endif %}
+						<li><a href="{% url 'myapp:about' %}">About</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						{% if request.user.is_authenticated %}

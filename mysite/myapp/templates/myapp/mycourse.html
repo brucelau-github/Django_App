@@ -1,11 +1,7 @@
 {% extends 'myapp/base.html' %}
-
-{% block myhdg %}
-hello Jianye Liu
-{% endblock %}
 {% block body_block %}
-{% if course %}
-<h2 class="sub-header">Detail of Courses</h2>
+{% if request.user.is_authenticated and courses %}
+<h2 class="sub-header">List of My Courses</h2>
 <div class="table-responsive">
 	<table class="table table-striped">
 		<thead>
@@ -13,18 +9,22 @@ hello Jianye Liu
 				<th>Course ID</th>
 				<th>Title</th>
 				<th>TextBook</th>
+				<th>Detail</th>
 			</tr>
 		</thead>
 		<tbody>
+			{% for course  in courses %}
 			<tr>
 				<th> {{ course.course_no }} </th>
 				<th> {{ course.title }} </th>
 				<th> {{ course.textbook }} </th>
+				<th><a href="{% url 'myapp:detail' course.course_no %}">more</a></th>
 			</tr>
+			{% endfor %}
 		</tbody>
 	</table>
 </div>
 {% else %}
-<strong>There are no available course!</strong>
+<strong>You are not a student!</strong>
 {% endif %}
 {% endblock %}

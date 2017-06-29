@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from myapp.models import Author, Book, Course, Topic
+from myapp.models import Author, Book, Course, Topic, Student
 from myapp.forms import TopicForm, InterestForm, RegisterForm, LoginForm
 
 from django.contrib.auth import authenticate, login, logout
@@ -59,24 +59,14 @@ def register(request):
     if(request.method=='POST'):
         form = RegisterForm(request.POST)
         if form.is_valid():
-            uname = request.POST['username']
-            pwd = request.POST['password']
-            email = request.POST['email']
-            student = Student.objects.create_user(uname,email,pwd)
-            student = form.save(commit=False)
-            student.save()
-            user2 = authenticate(username='abs',password='123')
-            student.username = uname
-            student.password =pwd
-            # student.first_name = request.POST['first_name']
-            # student.last_name = request.POST['last_name']
-            # student.save()
-            # # Student.objects.create(user=student)
-            # user = authenticate(username=student.username, password=student.password)
-            # Student.objects.create_user(request.POST['username'],"", request.POST['password'], form.cleaned_data['age'])
+            instance = form.save(commit=False)
+            instance.set_password(form.cleaned_data['password'])
+            instance.is_active = True
+            instance.is_staff = True
+            instance.is_superuser = True
+            instance.save()
             return HttpResponseRedirect(reverse('myapp:index'))
     else:
-        print('GET')
         form = RegisterForm()
         return render(request, 'myapp/register.html', {'form': form})
 
@@ -101,3 +91,11 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse(('myapp:index')))
+
+def mycourses(request):
+    if request.user.is_authenticated:
+        # courses = Student.objects.get(username=request.user.username).course_set.all()
+        courses = get_object_or_404(Student, username=request.user.username).course_set.all()
+        return render(request, 'myapp/mycourse.html', {'courses':courses})
+    else:
+        return render(request, 'myapp/mycourse.html')

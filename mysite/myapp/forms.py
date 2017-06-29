@@ -17,7 +17,8 @@ class InterestForm(forms.Form):
 class RegisterForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ['address', 'city', 'province', 'age']
+        fields = ['username', 'first_name', 'last_name', 'password', 'email', 'age', 'address', 'city', 'province']
+        widgets = { 'password': forms.PasswordInput() }
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=50)
