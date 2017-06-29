@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 import datetime
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
 class Author(models.Model):
@@ -17,7 +18,7 @@ class Book(models.Model):
     title = models.CharField(max_length=100)
     author = models.ForeignKey(Author)
     in_stock = models.BooleanField(default=True)
-    numpages = models.IntegerField()
+    numpages = models.IntegerField(null = True, validators=[MinValueValidator(50), MaxValueValidator(1000)])
     def __str__(self):
         return self.title
 

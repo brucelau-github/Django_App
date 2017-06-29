@@ -10,7 +10,10 @@ admin.site.register(Course)
 admin.site.register(Topic)
 
 class BookAdmin(admin.ModelAdmin):
-    list_display=('title','author', 'in_stock')
+    list_display = ('title','author', 'in_stock')
+    def clean_num(self):
+        numpages = self.cleaned_data.get('numpages')
+        raise ValidationError("Number should between 50 and 1000")
 admin.site.register(Book, BookAdmin)
 
 class StudentAdmin(admin.ModelAdmin):
